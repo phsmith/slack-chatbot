@@ -1,0 +1,4 @@
+azure-devops==6.0.0b4
+Flask==2.0.0
+gunicorn==20.1.0
+slack-bolt==1.6.0

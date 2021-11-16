@@ -1,0 +1,360 @@
+{
+	"title": {
+		"type": "plain_text",
+		"text": "TIS-Support",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Send",
+		"emoji": true
+	},
+	"type": "modal",
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "title",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Short summary",
+					"emoji": true
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Resumo da Solicitação",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Non-Production",
+							"emoji": true
+						},
+						"value": "N-Production"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Production",
+							"emoji": true
+						},
+						"value": "Production"
+					}
+				],
+				"action_id": "environment"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Ambiente",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Azure",
+							"emoji": true
+						},
+						"value": "Azure"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Ascenty",
+							"emoji": true
+						},
+						"value": "Ascenty"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "AWS",
+							"emoji": true
+						},
+						"value": "AWS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "GCP",
+							"emoji": true
+						},
+						"value": "GCP"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "IBM Cloud",
+							"emoji": true
+						},
+						"value": "IBM Cloud"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "QTS Atlanta",
+							"emoji": true
+						},
+						"value": "QTS Atlanta"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "QTS Chicago",
+							"emoji": true
+						},
+						"value": "QTS Chicago"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Tivit",
+							"emoji": true
+						},
+						"value": "Tivit"
+					}
+				],
+				"action_id": "infrastructure"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Infraestrutura",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "FTPS",
+							"emoji": true
+						},
+						"value": "FTPS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Fileserver/DFS",
+							"emoji": true
+						},
+						"value": "Fileserver/DFS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Firewall",
+							"emoji": true
+						},
+						"value": "Firewall"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Fortimanager",
+							"emoji": true
+						},
+						"value": "Fortimanager"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "IBM Connect Direct",
+							"emoji": true
+						},
+						"value": "IBM Connect Direct"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Jump server",
+							"emoji": true
+						},
+						"value": "Jump server"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "KMS",
+							"emoji": true
+						},
+						"value": "KMS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Load Balancer",
+							"emoji": true
+						},
+						"value": "Load Balancer"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Puppet/Foreman",
+							"emoji": true
+						},
+						"value": "Puppet/Foreman"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Resolução de Nomes (DNS)",
+							"emoji": true
+						},
+						"value": "Resolução de Nomes (DNS)"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Roteamento",
+							"emoji": true
+						},
+						"value": "Roteamento"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Rundeck",
+							"emoji": true
+						},
+						"value": "Rundeck"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "SFTP",
+							"emoji": true
+						},
+						"value": "SFTP"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "SMTP Relay",
+							"emoji": true
+						},
+						"value": "SMTP Relay"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Satellite/Katello",
+							"emoji": true
+						},
+						"value": "Satellite/Katello"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Stack vRealize",
+							"emoji": true
+						},
+						"value": "Stack vRealize"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "VPN",
+							"emoji": true
+						},
+						"value": "VPN"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Virtual Machine (VM)",
+							"emoji": true
+						},
+						"value": "Virtual Machine (VM)"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "WSUS",
+							"emoji": true
+						},
+						"value": "WSUS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "vCenter",
+							"emoji": true
+						},
+						"value": "vCenter"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Other",
+							"emoji": true
+						},
+						"value": "Other"
+					}
+				],
+				"action_id": "product"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Produto ou Serviço",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "description",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Request details",
+					"emoji": true
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Informações Complementares",
+				"emoji": true
+			}
+		}
+	]
+}
