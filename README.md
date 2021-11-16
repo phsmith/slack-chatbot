@@ -2,6 +2,8 @@
 
 Slack ChatBot with shortcuts forms support and Azure Boards integration.
 
+![Slack ChatBot Screenshot](./images/screenshot_1.png)
+
 ## Code Structure
 
 - **bot**: source code main directory
