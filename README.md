@@ -13,7 +13,6 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 - **main.py**: file that starts all necessary codes to run the bot
 - **requirements.txt**: file with python required libs to run the bot
 - **Dockerfile**: file to build a docker container to run the bot
-- **.env**: file with environment varibles samples to run the bot
 
 ```
 .
@@ -72,8 +71,17 @@ pip install -r requirements.txt
 ### Executing the Bot
 
 ```sh
-# Load environment varibles
-export $(grep -v '^#' .env)
+# Environment varibles example
+export \
+PORT=5000 \
+SLACK_BOT_TOKEN=xoxb-????????-???????-????????? \
+SLACK_SIGNING_SECRET=??????????????????????????? \
+SLACK_CHANNEL=test \
+AZ_DEVOPS_ORGANIZATION_URL=https://dev.azure.com/your_organization/ \
+AZ_DEVOPS_PERSONAL_ACCESS_TOKEN=?????????????????????????????? \
+AZ_DEVOPS_PROJECT_BOARD=Test \
+AZ_DEVOPS_WORK_ITEM_TYPE=Issue \
+AZ_DEVOPS_WORK_ITEM_AREA=\\Testing
 
 # Start the bot locally
 gunicorn bot.main:app --bind 0.0.0.0:5000
