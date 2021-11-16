@@ -31,5 +31,5 @@ class TestHandleMessages(TestCase):
 
         self.assertEqual(
             self.slack_message_handle.handle_message(slack_message, print),
-            ":robot_face: Para suporte, favor utilizar o atalho */suporte*"
+            ":robot_face: Para suporte, favor utilizar o atalho */support*"
         )

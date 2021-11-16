@@ -18,7 +18,7 @@ class HandleMessages():
             say: Slack client say function
         """
 
-        bot_message = ":robot_face: Para suporte, favor utilizar o atalho */suporte*"
+        bot_message = ":robot_face: Para suporte, favor utilizar o atalho */support*"
 
         if message.get("thread_ts"):
             return
