@@ -30,12 +30,12 @@ oauth_config:
       - users:read
 settings:
   event_subscriptions:
-    request_url: https://slack-chatbot-02yxbuvsma-uc.a.run.app/slack/events
+    request_url: https://slack-chatbot.app/slack/events
     bot_events:
       - message.channels
   interactivity:
     is_enabled: true
-    request_url: https://slack-chatbot-02yxbuvsma-uc.a.run.app/slack/events
+    request_url: https://slack-chatbot.app/slack/events
   org_deploy_enabled: false
   socket_mode_enabled: false
   is_hosted: false

@@ -11,6 +11,7 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 - **libs**: source for third party libs like slack-bolt Slack client
 - **templates**: Bot templates like Slack modal views, see [Block Kit Builder](https://app.slack.com/block-kit-builder), and AzureDevops payloads
 - **tests**: source for code unit tests
+- **app-manifest.yml**: App definition that can be imported in [Slack API page](https://api.slack.com/)
 - **config.py**: file that manages bot base configurations
 - **main.py**: file that starts all necessary codes to run the bot
 - **requirements.txt**: file with python required libs to run the bot
