@@ -87,7 +87,7 @@ AZ_DEVOPS_WORK_ITEM_TYPE=Issue \
 AZ_DEVOPS_WORK_ITEM_AREA=\\Testing
 
 # Start the bot locally
-gunicorn bot.main:app --bind 0.0.0.0:5000
+gunicorn bot.main:app --reload --bind 0.0.0.0:5000
 ```
 
 On another terminal run:
