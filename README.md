@@ -1,6 +1,6 @@
 # Slack Chat Bot
 
-This is a Slack Bot that was made to be used on #inf_compute_support slack channel, but can be used by any team.
+Slack ChatBot with shortcuts forms support and Azure Boards integration.
 
 ![Slack ChatBot Screenshot](./images/screenshot_1.png)
 
@@ -87,7 +87,7 @@ export AZ_DEVOPS_ORGANIZATION_URL=https://dev.azure.com/my_org \
        SLACK_SIGNING_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Start the bot locally
-gunicorn bot.main:app --bind 0.0.0.0:5000
+gunicorn --bind 0.0.0.0:5000 --reload bot.main:app
 ```
 
 On another terminal run:
