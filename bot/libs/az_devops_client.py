@@ -7,12 +7,12 @@ import requests
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 
-from bot.config import AzDevOpsConfig
+from bot.config import Config
 
 requests.urllib3.disable_warnings()
 
 
-class AzDevOpsClient(AzDevOpsConfig):
+class AzDevOpsClient():
     """
     Class that provides a wrapper for the Azure DevOps Python API
     More info at https://github.com/microsoft/azure-devops-python-api
@@ -28,8 +28,8 @@ class AzDevOpsClient(AzDevOpsConfig):
         Returns:
             The connection object
         """
-        credentials = BasicAuthentication('', self.az_devops_pat)
-        connection = Connection(base_url=self.az_devops_organization_url, creds=credentials)
+        credentials = BasicAuthentication('', Config.az_devops_pat)
+        connection = Connection(base_url=Config.az_devops_organization_url, creds=credentials)
         return connection
 
     def provide_work_item_tracking_client(self) -> object:
@@ -38,18 +38,17 @@ class AzDevOpsClient(AzDevOpsConfig):
         """
         self.work_item_tracking_client = self.connection.clients.get_work_item_tracking_client()
 
-    def get_team_settings(self) -> dict:
+    def get_team_settings(self, project: str) -> dict:
         """Get team_settings"""
 
-        az_devops_team_settings_url = (
-            f"{self.az_devops_organization_url}"
-            f"/{self.az_devops_project_board}"
+        team_settings_url = (
+            f"{Config.az_devops_organization_url}/{project}"
             "/_apis/work/teamsettings?api-version=6.1-preview.1"
         )
 
         request = requests.get(
-            url=az_devops_team_settings_url,
-            headers={"Authorization": f"Basic {self.az_devops_pat_b64}"},
+            url=team_settings_url,
+            headers={"Authorization": f"Basic {Config.az_devops_pat_b64}"},
             verify=False
         )
 
@@ -57,7 +56,7 @@ class AzDevOpsClient(AzDevOpsConfig):
             return request.json()
         except Exception:
             message = f"{request.status_code} {request.reason}: {request.url}"
-            self.logger.error(message)
+            Config.logger.error(message)
             return
 
     def add_item_to_project_board(
@@ -90,4 +89,34 @@ class AzDevOpsClient(AzDevOpsConfig):
 
             return board_item
         except Exception as error:
-            self.logger.error(str(error))
+            Config.logger.error(str(error))
+
+    def update_work_item(
+        self, project: str, document: list, work_item_id: str
+    ) -> dict:
+        """Update an work item on Azure DevOps Boards
+
+        Args:
+            project: Project name
+            document: Work item document template
+            work_item_id: Work item id to update
+
+        Retuns:
+            The board item updated
+        """
+        if not self.work_item_tracking_client:
+            self.provide_work_item_tracking_client()
+
+        if not project or not document or not work_item_id:
+            raise ValueError("project, document and work_item_id must be set.")
+
+        try:
+            updated_board_item = self.work_item_tracking_client.update_work_item(
+                project=project,
+                document=document,
+                id=work_item_id
+            )
+
+            return updated_board_item
+        except Exception as error:
+            Config.logger.error(str(error))

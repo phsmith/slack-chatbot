@@ -1,0 +1,174 @@
+{
+	"title": {
+		"type": "plain_text",
+		"text": "Cloud-Support",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Send",
+		"emoji": true
+	},
+	"type": "modal",
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "input",
+			"block_id": "title_block",
+			"element": {
+				"type": "plain_text_input",
+				"action_id": "title",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Short summary",
+					"emoji": true
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Resumo da Solicitação",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "environment_block",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Non-Production",
+							"emoji": true
+						},
+						"value": "N-Production"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Production",
+							"emoji": true
+						},
+						"value": "Production"
+					}
+				],
+				"action_id": "environment"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Ambiente",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "infrastructure_block",
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Azure",
+							"emoji": true
+						},
+						"value": "Azure"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "AWS",
+							"emoji": true
+						},
+						"value": "AWS"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "GCP",
+							"emoji": true
+						},
+						"value": "GCP"
+					},
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "IBM Cloud",
+							"emoji": true
+						},
+						"value": "IBM Cloud"
+					}
+				],
+				"action_id": "infrastructure"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Infraestrutura",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "product_block",
+			"dispatch_action": true,
+			"element": {
+				"type": "static_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select an option",
+					"emoji": true
+				},
+				"options": [
+					{
+						"text": {
+							"type": "plain_text",
+							"text": "Other",
+							"emoji": true
+						},
+						"value": "Other"
+					}
+				],
+				"action_id": "product"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Produto ou Serviço",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+			"block_id": "description_block",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "description",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Request details",
+					"emoji": true
+				}
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Informações Complementares",
+				"emoji": true
+			}
+		}
+	]
+}

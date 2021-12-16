@@ -1,0 +1,571 @@
+{
+    "type": "view_submission",
+    "team": {
+        "id": "T02209CMMAM",
+        "domain": "my.org"
+    },
+    "user": {
+        "id": "U021JJDD405",
+        "username": "phillipe.chaves",
+        "name": "phillipe.chaves",
+        "team_id": "T02209CMMAM"
+    },
+    "api_app_id": "A02209FBKLZ",
+    "token": "BQdiLmRmgeC6TkgwUppLLgRX",
+    "trigger_id": "2838163162545.2068318735361.7ce01c2bc52ba54d1a2fb56e5bc7adda",
+    "view": {
+        "id": "V02Q6HAU8TX",
+        "team_id": "T02209CMMAM",
+        "type": "modal",
+        "blocks": [
+            {
+                "type": "input",
+                "block_id": "title_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Resumo da Solicita\u00e7\u00e3o",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": false,
+                "element": {
+                    "type": "plain_text_input",
+                    "action_id": "title",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Short summary",
+                        "emoji": true
+                    },
+                    "dispatch_action_config": {
+                        "trigger_actions_on": [
+                            "on_enter_pressed"
+                        ]
+                    }
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "environment_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Ambiente",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": false,
+                "element": {
+                    "type": "static_select",
+                    "action_id": "environment",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select an option",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Non-Production",
+                                "emoji": true
+                            },
+                            "value": "N-Production"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Production",
+                                "emoji": true
+                            },
+                            "value": "Production"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "infrastructure_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Infraestrutura",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": false,
+                "element": {
+                    "type": "static_select",
+                    "action_id": "infrastructure",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select an option",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Azure",
+                                "emoji": true
+                            },
+                            "value": "Azure"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Ascenty",
+                                "emoji": true
+                            },
+                            "value": "Ascenty"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "AWS",
+                                "emoji": true
+                            },
+                            "value": "AWS"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "GCP",
+                                "emoji": true
+                            },
+                            "value": "GCP"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "IBM Cloud",
+                                "emoji": true
+                            },
+                            "value": "IBM Cloud"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "QTS Atlanta",
+                                "emoji": true
+                            },
+                            "value": "QTS Atlanta"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "QTS Chicago",
+                                "emoji": true
+                            },
+                            "value": "QTS Chicago"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Tivit",
+                                "emoji": true
+                            },
+                            "value": "Tivit"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "product_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Produto ou Servi\u00e7o",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": true,
+                "element": {
+                    "type": "static_select",
+                    "action_id": "product",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select an option",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Algosec",
+                                "emoji": true
+                            },
+                            "value": "Algosec"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "FTPS",
+                                "emoji": true
+                            },
+                            "value": "FTPS"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Fileserver/DFS",
+                                "emoji": true
+                            },
+                            "value": "Fileserver/DFS"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Firewall",
+                                "emoji": true
+                            },
+                            "value": "Firewall"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Fortimanager",
+                                "emoji": true
+                            },
+                            "value": "Fortimanager"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "IBM Connect Direct",
+                                "emoji": true
+                            },
+                            "value": "IBM Connect Direct"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Jump server",
+                                "emoji": true
+                            },
+                            "value": "Jump server"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "KMS",
+                                "emoji": true
+                            },
+                            "value": "KMS"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Load Balancer",
+                                "emoji": true
+                            },
+                            "value": "Load Balancer"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Puppet/Foreman",
+                                "emoji": true
+                            },
+                            "value": "Puppet/Foreman"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Resolu\u00e7\u00e3o de Nomes (DNS)",
+                                "emoji": true
+                            },
+                            "value": "Resolu\u00e7\u00e3o de Nomes (DNS)"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Roteamento",
+                                "emoji": true
+                            },
+                            "value": "Roteamento"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Rundeck",
+                                "emoji": true
+                            },
+                            "value": "Rundeck"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "SFTP",
+                                "emoji": true
+                            },
+                            "value": "SFTP"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "SMTP Relay",
+                                "emoji": true
+                            },
+                            "value": "SMTP Relay"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Satellite/Katello",
+                                "emoji": true
+                            },
+                            "value": "Satellite/Katello"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Stack vRealize",
+                                "emoji": true
+                            },
+                            "value": "Stack vRealize"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "VPN",
+                                "emoji": true
+                            },
+                            "value": "VPN"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Virtual Machine (VM)",
+                                "emoji": true
+                            },
+                            "value": "Virtual Machine (VM)"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "WSUS",
+                                "emoji": true
+                            },
+                            "value": "WSUS"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "vCenter",
+                                "emoji": true
+                            },
+                            "value": "vCenter"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Other",
+                                "emoji": true
+                            },
+                            "value": "Other"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "algosec_issues_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Problema",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": false,
+                "element": {
+                    "type": "static_select",
+                    "action_id": "algosec_issues",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Select an option",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Regra n\u00e3o aprovada",
+                                "emoji": true
+                            },
+                            "value": "Regra n\u00e3o aprovada"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Regra aguardando aprova\u00e7\u00e3o",
+                                "emoji": true
+                            },
+                            "value": "Regra aguardando aprova\u00e7\u00e3o"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Regra aguardando implementa\u00e7\u00e3o",
+                                "emoji": true
+                            },
+                            "value": "Regra aguardando implementa\u00e7\u00e3o"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Lentid\u00e3o ao acessar o Algosec",
+                                "emoji": true
+                            },
+                            "value": "Lentid\u00e3o ao acessar o Algosec"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Cria\u00e7\u00e3o de usu\u00e1rio no Algosec",
+                                "emoji": true
+                            },
+                            "value": "Cria\u00e7\u00e3o de usu\u00e1rio no Algosec"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "N\u00e3o consigo acessar o Algosec",
+                                "emoji": true
+                            },
+                            "value": "N\u00e3o consigo acessar o Algosec"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Campos n\u00e3o aparecem no fluxo do Fireflow",
+                                "emoji": true
+                            },
+                            "value": "Campos n\u00e3o aparecem no fluxo do Fireflow"
+                        }
+                    ]
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "description_block",
+                "label": {
+                    "type": "plain_text",
+                    "text": "Informa\u00e7\u00f5es Complementares",
+                    "emoji": true
+                },
+                "optional": false,
+                "dispatch_action": false,
+                "element": {
+                    "type": "plain_text_input",
+                    "action_id": "description",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "Request details",
+                        "emoji": true
+                    },
+                    "multiline": true,
+                    "dispatch_action_config": {
+                        "trigger_actions_on": [
+                            "on_enter_pressed"
+                        ]
+                    }
+                }
+            }
+        ],
+        "private_metadata": "",
+        "callback_id": "",
+        "state": {
+            "values": {
+                "title_block": {
+                    "title": {
+                        "type": "plain_text_input",
+                        "value": "Test"
+                    }
+                },
+                "environment_block": {
+                    "environment": {
+                        "type": "static_select",
+                        "selected_option": {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Non-Production",
+                                "emoji": true
+                            },
+                            "value": "N-Production"
+                        }
+                    }
+                },
+                "infrastructure_block": {
+                    "infrastructure": {
+                        "type": "static_select",
+                        "selected_option": {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "QTS Atlanta",
+                                "emoji": true
+                            },
+                            "value": "QTS Atlanta"
+                        }
+                    }
+                },
+                "product_block": {
+                    "product": {
+                        "type": "static_select",
+                        "selected_option": {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Algosec",
+                                "emoji": true
+                            },
+                            "value": "Algosec"
+                        }
+                    }
+                },
+                "description_block": {
+                    "description": {
+                        "type": "plain_text_input",
+                        "value": "Testing"
+                    }
+                },
+                "algosec_issues_block": {
+                    "algosec_issues": {
+                        "type": "static_select",
+                        "selected_option": {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Regra n\u00e3o aprovada",
+                                "emoji": true
+                            },
+                            "value": "Regra n\u00e3o aprovada"
+                        }
+                    }
+                }
+            }
+        },
+        "hash": "1639137374.mx05jrMK",
+        "title": {
+            "type": "plain_text",
+            "text": "TIS-Support",
+            "emoji": true
+        },
+        "clear_on_close": false,
+        "notify_on_close": false,
+        "close": {
+            "type": "plain_text",
+            "text": "Cancel",
+            "emoji": true
+        },
+        "submit": {
+            "type": "plain_text",
+            "text": "Send",
+            "emoji": true
+        },
+        "previous_view_id": null,
+        "root_view_id": "V02Q6HAU8TX",
+        "app_id": "A02209FBKLZ",
+        "external_id": "",
+        "app_installed_team_id": "T02209CMMAM",
+        "bot_id": "B021MT5SV3M"
+    },
+    "response_urls": [],
+    "is_enterprise_install": false,
+    "enterprise": null
+}

@@ -19,7 +19,7 @@ class TestHandleMessages(TestCase):
         )
 
         self.assertIsNone(
-            self.slack_message_handle.handle_message(slack_message, print)
+            self.slack_message_handle.handle_message(self.slack_client, slack_message, print)
         )
 
     def test_handle_message_without_thread(self):
@@ -29,7 +29,7 @@ class TestHandleMessages(TestCase):
             text="Test"
         )
 
-        self.assertEqual(
-            self.slack_message_handle.handle_message(slack_message, print),
-            ":robot_face: Para suporte, favor utilizar o atalho */support*"
+        self.assertIn(
+            ":robot_face: Para suporte, favor utilizar o(s) atalho(s)",
+            self.slack_message_handle.handle_message(self.slack_client, slack_message, print)
         )

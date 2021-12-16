@@ -1,0 +1,97 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+pr:
+- master
+
+variables:
+  disable.coverage.autogenerate: true
+  AzDevOps.AgentPool: MyPool
+  AzDevOps.OrganizationUrl: https://dev.azure.com/myorg
+  ContainerRegistry: myregistry
+  ContainerRegistry.ProjectId: s02opjq9lgunjvnqgbjfq5zn2cxbss
+  CloudRun.ProjectId.Production: s02opjq9lgunjvnqgbjfq5zn2cxbss
+  CloudRun.ProjectId.Staging: sbp81y44keitmiu4ayrez7vh0989db
+  CloudRun.Region: us-central1
+  CloudRun.Service: slack-chat-bot
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Tests
+  jobs:
+  - job: Flake8
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: |
+          pip install --quiet flake8
+          flake8 bot/
+  - job: UnitTests
+    steps:
+    - task: CmdLine@2
+      displayName: PyTest
+      inputs:
+        script: |
+          pip install pytest pytest-cov pytest-azurepipelines
+          pip install -r requirements.txt
+          pytest tests/ --doctest-modules --junitxml=junit/test-results.xml --cov=. --cov-report=xml
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: JUnit
+        testResultsFiles: '**/test-*.xml'
+        failTaskOnFailedTests: true
+        testRunTitle: 'Publish test results'
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+
+- stage: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranchName'], 'master'))
+  jobs:
+  - job: DockerBuildAndPush
+    displayName: Docker Build and Push to GCP
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: $(ContainerRegistry)
+        Dockerfile: $(Build.SourcesDirectory)/Dockerfile
+        command: buildAndPush
+        repository: $(ContainerRegistry.ProjectId)/$(CloudRun.Service)
+        tags: |
+          $(Build.BuildNumber)
+
+- stage: Deploy
+  dependsOn: Build
+  condition: succeeded()
+  variables:
+    Build.SyncSources: false
+  jobs:
+  - job: DeployToCloudRun
+    displayName: Deploy to Cloud Run
+    pool:
+      name: $(AzDevOps.AgentPool)
+      workspace:
+        clean: all
+    steps:
+    - task: CmdLine@2
+      displayName: gcloud run deploy
+      inputs:
+        workingDirectory: $(Agent.HomeDirectory)
+        script: |
+          gcloud run deploy $(CloudRun.Service) \
+            --quiet \
+            --min-instances=1 \
+            --allow-unauthenticated \
+            --image=gcr.io/$(ContainerRegistry.ProjectId)/$(CloudRun.Service):$(Build.BuildNumber) \
+            --platform=managed \
+            --region=$(CloudRun.Region) \
+            --project=$(CloudRun.ProjectId.Production) \
+            --set-env-vars AZ_DEVOPS_ORGANIZATION_URL=$(AzDevOps.OrganizationUrl),AZ_DEVOPS_PERSONAL_ACCESS_TOKEN=$(AzDevOps.PersonalAccessToken),SLACK_BOT_TOKEN=$(Slack.BotToken),SLACK_SIGNING_SECRET=$(Slack.SignSecret)
