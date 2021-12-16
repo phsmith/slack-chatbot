@@ -3,18 +3,18 @@ Slack client module
 """
 
 from slack_bolt import App
-from bot.config import SlackConfig
+from bot.config import Config
 
 
-class SlackClient(SlackConfig):
+class SlackClient():
     """
     Slack client instance class
 
     Returns:
-        app: A slack_bolt App instance
+        object: A slack_bolt App instance
     """
-    def __init__(self):
-        self.app = App(
-            signing_secret=self.slack_signing_secret,
-            token=self.slack_bot_token
+    def __new__(self):
+        return App(
+            signing_secret=Config.slack_signing_secret,
+            token=Config.slack_bot_token
         )

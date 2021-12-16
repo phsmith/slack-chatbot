@@ -28,9 +28,14 @@ class Config:
     Base configurations class
 
     Args:
-        bot_listen_port: Bot listening http port. Default: 5000
+        port: Bot listening http port. Default: 5000
         logger: Instance of logging to manage logs info
         template_env: Jinja2 templates dir environment
+        az_organization_url: Azure organization url
+        az_devops_pat: Azure Devops personal access token
+        slack_bot_token: Bot token from https://api.slack.com/apps
+        slack_signing_secret: Bot signing secret token from https://api.slack.com/apps
+        slack_shortcuts: Slack shortcuts configurations
     """
     logger = logging.getLogger(__name__)
     port = os.environ.get('PORT', 5000)
@@ -39,7 +44,8 @@ class Config:
         autoescape=select_autoescape()
     )
 
-    def load_template(self, template: str, **kwargs) -> Optional[Union[list, dict]]:
+    @classmethod
+    def load_template(cls, template: str, **kwargs) -> Optional[Union[list, dict]]:
         """Load a jinja2 template file from templates dir
 
         Args:
@@ -50,47 +56,66 @@ class Config:
             The template file content
         """
         try:
-            template = self.templates_env.get_template(template)
+            template = cls.templates_env.get_template(template)
             return json.loads(template.render(**kwargs), strict=False)
         except TemplateNotFound:
-            return self.logger.error(f"Template {template} not found.")
+            return cls.logger.error(f"Template {template} not found.")
 
+    @classmethod
+    def get_channel_shortcuts(cls, channel_name: str) -> list:
+        """Get the shortcuts associated to a Slack Channel
 
-class SlackConfig(Config):
-    """Slack base configurations class
+        Args:
+            channel_name: The channel name
 
-    Args:
-        slack_bot_token: Bot token from https://api.slack.com/apps
-        slack_bot_signing_secret: Bot signing secret token from https://api.slack.com/apps
-        slack_channel: Slack conversation channel
-        slack_templates: Dictionary to map templates.
-                         Example: slack_templates["shortcuts"]["support"]
-    """
-    slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
-    slack_signing_secret = os.environ.get("SLACK_SIGNING_SECRET")
-    slack_channel = os.environ.get("SLACK_CHANNEL")
-    slack_templates = {
-        "shortcuts": {
-            "support": "slack/shortcut_support.json"
-        }
-    }
+        Returns:
+            A list with shortcuts names
+        """
+        channel_shortcuts = list()
 
+        try:
+            for shortcut in cls.slack_shortcuts:
+                if cls.slack_shortcuts[shortcut].get("slack_channel") == channel_name:
+                    channel_shortcuts.append(shortcut)
+            return channel_shortcuts
+        except Exception:
+            cls.logger.error(f"No shortcuts found for channel {channel_name}", exc_info=True)
 
-class AzDevOpsConfig(Config):
-    """Azure base configurations class
-
-    Args:
-        az_organization_url: Azure organization url
-        az_personal_access_token: Azure Devops personal access token
-        az_devops_project_board: Azure Boards project name
-        az_devops_board_template: Azure Boards payload
-    """
+    # Azure DevOps configurations
     az_devops_organization_url = os.environ.get("AZ_DEVOPS_ORGANIZATION_URL")
     az_devops_pat = os.environ.get("AZ_DEVOPS_PERSONAL_ACCESS_TOKEN")
     az_devops_pat_b64 = b64encode(f"'':{az_devops_pat}".encode()).decode()
-    az_devops_project_board = os.environ.get("AZ_DEVOPS_PROJECT_BOARD")
-    az_devops_worK_item_type = os.environ.get("AZ_DEVOPS_WORK_ITEM_TYPE", "Support")
-    az_devops_board_template = f"azure_devops/{az_devops_project_board}.j2"
-    az_devops_worK_item_iteration = os.environ.get("AZ_DEVOPS_WORK_ITEM_ITERATION", "")
-    # AZ_DEVOPS_WORK_ITEM_AREA must be set like: AZ_DEVOPS_WORK_ITEM_AREA=\\Area1
-    az_devops_worK_item_area = f'{az_devops_project_board}{os.environ.get("AZ_DEVOPS_WORK_ITEM_AREA", "")}'
+
+    # Slack configurations
+    slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
+    slack_signing_secret = os.environ.get("SLACK_SIGNING_SECRET")
+    slack_shortcuts = {
+        "devops_support": {
+            "az_devops_board": "devops",
+            "az_devops_board_template": "azure_devops/devops_team.j2",
+            "az_devops_project": "devops-project",
+            "az_devops_work_item_type": "Support",
+            "az_devops_work_item_area": "devops-project\\\\q1",
+            "az_devops_work_item_iteration": "",
+            "az_devops_sla": {
+                "N-Production": "5 days",
+                "Production": "3 days"
+            },
+            "slack_channel": "devops-support",
+            "slack_template": "slack/devops_shortcut_support.json"
+        },
+        "coud_support": {
+            "az_devops_board": "cloud",
+            "az_devops_board_template": "azure_devops/cloud_team.j2",
+            "az_devops_project": "cloud-project",
+            "az_devops_work_item_type": "Support",
+            "az_devops_work_item_area": "cloud-project\\\\q1",
+            "az_devops_work_item_iteration": "",
+            "az_devops_sla": {
+                "N-Production": "5 days",
+                "Production": "3 days"
+            },
+            "slack_channel": "cloud-support",
+            "slack_template": "slack/cloud_shortcut_support.json"
+        }
+    }

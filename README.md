@@ -1,8 +1,6 @@
-# slack-chatbot
+# Slack Chat Bot
 
-Slack ChatBot with shortcuts forms support and Azure Boards integration.
-
-![Slack ChatBot Screenshot](./images/screenshot_1.png)
+This is a Slack Bot that was made to be used on #inf_compute_support slack channel, but can be used by any team.
 
 ## Code Structure
 
@@ -11,7 +9,6 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 - **libs**: source for third party libs like slack-bolt Slack client
 - **templates**: Bot templates like Slack modal views, see [Block Kit Builder](https://app.slack.com/block-kit-builder), and AzureDevops payloads
 - **tests**: source for code unit tests
-- **app-manifest.yml**: App definition that can be imported in [Slack API page](https://api.slack.com/)
 - **config.py**: file that manages bot base configurations
 - **main.py**: file that starts all necessary codes to run the bot
 - **requirements.txt**: file with python required libs to run the bot
@@ -19,38 +16,45 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 
 ```
 .
-├── bot
-│   ├── handlers
-│   │   └── slack
-│   │       ├── handle_messages.py
-│   │       └── handle_shortcut_support.py
-│   ├── libs
-│   │   ├── az_devops_client.py
-│   │   └── slack_client.py
-│   ├── templates
-│   │   ├── azure_devops
-│   │   │   └── inf-core-dc-compute.j2
-│   │   └── slack
-│   │       └── infra_compute_shortcut_support.json
-│   ├── config.py
-│   └── main.py
-├── tests
-│   └── unit
-│       ├── handlers
-│       │   └── slack
-│       │       ├── test_handle_message.py
-│       │       └── test_handle_shortcut_suporte.py
-│       └── libs
-│           ├── test_az_devops_client.py
-│           └── test_slack_client.py
-├── azure-pipelines.yml
-├── Dockerfile
-├── .dockerignore
-├── .env
-├── .flake8
-├── .gitignore
-├── README.md
-└── requirements.txt
+|-- bot
+|   |-- handlers
+|   |   `-- slack
+|   |       |-- handle_messages.py
+|   |       |-- handle_reactions.py
+|   |       `-- handle_shortcut_support.py
+|   |-- libs
+|   |   |-- az_devops_client.py
+|   |   `-- slack_client.py
+|   |-- templates
+|   |   |-- azure_devops
+|   |   |   |-- cloud-team.j2
+|   |   |   |-- devops-team.j2
+|   |   |   `-- test.j2
+|   |   `-- slack
+|   |       |-- cloud_shortcut_support.json
+|   |       `-- devops_shortcut_support.json
+|   |-- config.py
+|   `-- main.py
+|-- images
+|   |-- screenshot_1.png
+|   `-- screenshot_2.png
+|-- tests
+|   `-- unit
+|       |-- handlers
+|       |   `-- slack
+|       |       |-- test_handle_message.py
+|       |       |-- test_handle_shortcut_suporte.py
+|       |       `-- test_handle_shortcut_support.py
+|       |-- libs
+|       |   |-- test_az_devops_client.py
+|       |   `-- test_slack_client.py
+|       `-- slack_message_body.json
+|-- app-manifest.yml
+|-- azure-pipelines.yml
+|-- Dockerfile
+|-- LICENSE
+|-- README.md
+|-- requirements.txt
 ```
 
 ## Contributing
@@ -74,20 +78,14 @@ pip install -r requirements.txt
 ### Executing the Bot
 
 ```sh
-# Environment varibles example
-export \
-PORT=5000 \
-SLACK_BOT_TOKEN=xoxb-????????-???????-????????? \
-SLACK_SIGNING_SECRET=??????????????????????????? \
-SLACK_CHANNEL=test \
-AZ_DEVOPS_ORGANIZATION_URL=https://dev.azure.com/your_organization/ \
-AZ_DEVOPS_PERSONAL_ACCESS_TOKEN=?????????????????????????????? \
-AZ_DEVOPS_PROJECT_BOARD=Test \
-AZ_DEVOPS_WORK_ITEM_TYPE=Issue \
-AZ_DEVOPS_WORK_ITEM_AREA=\\Testing
+# Load environment varibles
+export AZ_DEVOPS_ORGANIZATION_URL=https://dev.azure.com/my_org \
+       AZ_DEVOPS_PERSONAL_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+       SLACK_BOT_TOKEN=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx \
+       SLACK_SIGNING_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Start the bot locally
-gunicorn bot.main:app --reload --bind 0.0.0.0:5000
+gunicorn bot.main:app --bind 0.0.0.0:5000
 ```
 
 On another terminal run:
@@ -111,7 +109,7 @@ manage the bot installation and configuration.
 
 #### Slack API -> App page -> Features -> Interactivity & Shortcuts -> Shortcuts:
 
-- Create a new **Global Shortcut** with **Name = Support** and **Callback ID = support**
+- Create a new **Global Shortcut** with **Name = suporte** and **Callback ID = suporte**
 
 #### Slack API -> App page -> Features -> Event Subscriptions:
 

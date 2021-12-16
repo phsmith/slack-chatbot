@@ -2,8 +2,8 @@ _metadata:
   major_version: 1
   minor_version: 1
 display_information:
-  name: Slack ChatBot
-  description: "Bot for #support channel"
+  name: Slack Chat Bot
+  description: "Support Bot for Slack Channels"
   background_color: "#2c2d30"
 features:
   app_home:
@@ -11,13 +11,17 @@ features:
     messages_tab_enabled: true
     messages_tab_read_only_enabled: true
   bot_user:
-    display_name: Slack ChatBot
+    display_name: Slack Chat Bot
     always_online: true
   shortcuts:
-    - name: Support
+    - name: DevOps Support
       type: global
-      callback_id: support
-      description: Support
+      callback_id: devops_support
+      description: DevOps support shortcut
+    - name: Cloud Support
+      type: global
+      callback_id: cloud_support
+      description: Cloud support shortcut
 oauth_config:
   scopes:
     bot:

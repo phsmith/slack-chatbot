@@ -1,5 +1,5 @@
 """
-Slack ChatBot
+Slack Chat Bot
 """
 from flask import Flask, request
 from slack_bolt.adapter.flask import SlackRequestHandler
@@ -8,19 +8,31 @@ from bot.libs.slack_client import SlackClient
 from bot.handlers.slack.handle_messages import HandleMessages
 from bot.handlers.slack.handle_shortcut_support import HandleShortcutSupport
 
-# Flask App
 app = Flask(__name__)
-
-# Slack Client
 slack_client = SlackClient()
-slack_handle_messages = HandleMessages(slack_client.app)
-slack_handle_shortcut_support = HandleShortcutSupport(slack_client.app)
-slack_request_handler = SlackRequestHandler(slack_client.app)
+
+
+# Slack Handles
+@slack_client.middleware
+def manage_request(body, next):
+    """
+    Method to intercepts Slack events before goes to handles
+    """
+    HandleMessages(slack_client)
+
+    if body.get("type") == "shortcut":
+        HandleShortcutSupport.callback_id = body["callback_id"]
+        HandleShortcutSupport(slack_client)
+
+    return next()
 
 
 @app.route("/slack/events", methods=["POST"])
 def slack_events():
-    return slack_request_handler.handle(request)
+    """
+    Method that handles Slack events and send to Flask
+    """
+    return SlackRequestHandler(slack_client).handle(request)
 
 
 @app.route('/health', methods=['GET', 'POST'])
