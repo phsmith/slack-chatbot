@@ -7,64 +7,71 @@ from bot.handlers.slack.handle_reactions import HandleReactions
 
 
 class HandleShortcutSupport(HandleReactions):
-    """ Class to handle slack channel support shortcut
+    """Class to handle slack channel support shortcut
 
     Attributes:
         callback_id: Slack shortcut callback_id
     """
+
     callback_id = None
 
-    def __init__(self, slack_client: object):
-        self.shortcut_config = Config.slack_shortcuts[self.callback_id]
-        slack_client.shortcut(self.callback_id)(self.handle_shortcut)
-        slack_client.view_submission("")(self.handle_shortcut_submission)
-        super().__init__(slack_client)
+    def __init__(self, slack_app: object):
+        self.shortcut_config = Config.slack_shortcuts.get(self.callback_id)
+        slack_app.shortcut(self.callback_id)(self.handle_shortcut)
+        slack_app.view_submission("")(self.handle_shortcut_submission)
+        super().__init__(slack_app)
 
-    def handle_shortcut(self, ack: object, client: object, shortcut: dict) -> None:
+    def handle_shortcut(self, ack: object, client: object, shortcut: dict, logger: Config.logger) -> None:
         """Handle shortcut modal view openning
 
         Args:
             ack: Acknowledge the command request
-            client: Slack client instance
+            client: Slack App instance
             shortcut: Slack shortcut trigger info
         """
         ack()
 
-        client.views_open(
-            trigger_id=shortcut["trigger_id"],
-            view=Config.load_template(
-                self.shortcut_config["slack_template"]
+        if self.shortcut_config:
+            client.views_open(
+                trigger_id=shortcut["trigger_id"],
+                view=Config.load_template(
+                    self.shortcut_config["slack_template"]
+                )
             )
-        )
+        else:
+            logger.error(f"No config found for the shortcut {self.callback_id}")
+
 
     def handle_shortcut_submission(
-        self, ack: object, body: dict, client: object,
-        event: dict, logger: object
+        self, ack: object, body: dict, client: object, event: dict, logger: Config.logger
     ) -> None:
         """Handle shortcut modal view submission
 
         Args:
             ack: Acknowledge the command request
             body: Slack message body info
-            client: Slack client instance
+            client: Slack App instance
             event: Slack events info
             logger: Logging instance
         """
         ack()
 
         az_devops_client = AzDevOpsClient()
-        az_devops_team_settings = az_devops_client.get_team_settings(self.shortcut_config["az_devops_project"])
+        az_devops_team_settings = az_devops_client.get_team_settings(
+            self.shortcut_config["az_devops_project"]
+        )
 
         # view_blocks = list(map(lambda x: x["block_id"], body["view"]["blocks"]))
         view_state_values = body["view"]["state"]["values"]
 
+        support_team_id = "S02L8NJ4T27"  # @tis-administration
         user_name = body["user"]["name"]
         title = view_state_values["title_block"]["title"]["value"].replace('"', "'")
         environment = view_state_values["environment_block"]["environment"]["selected_option"]["value"]
         infrastructure = view_state_values["infrastructure_block"]["infrastructure"]["selected_option"]["value"]
         product = view_state_values["product_block"]["product"]["selected_option"]["value"]
         description = view_state_values["description_block"]["description"]["value"].replace('"', "'")
-        bot_message = (
+        bot_message_text = (
             f"*Resumo da Solicitação:* {title}\n"
             f"*Ambiente:* {environment}\n"
             f"*Infraestrutura:* {infrastructure}\n"
@@ -82,28 +89,29 @@ class HandleShortcutSupport(HandleReactions):
         channel_id = None
         channels_filter = list(
             filter(
-                lambda chn: chn["id"] if chn["name"] == self.shortcut_config["slack_channel"] else None,
-                bot_subscribed_channels
+                lambda chn: chn["id"]
+                if chn["name"] == self.shortcut_config["slack_channel"]
+                else None,
+                bot_subscribed_channels,
             )
         )
 
         if channels_filter:
             channel_id = channels_filter[0]["id"]
         else:
-            raise ValueError(f"Bot not subscribed in the channel #{self.shortcut_config['slack_channel']}.")
+            raise ValueError(
+                f"Bot not subscribed in the channel #{self.shortcut_config['slack_channel']}."
+            )
 
         # Posts a message in the channel with the support form data
-        post_message = client.chat_postMessage(
-            text=f"*Solicitante:* <@{user_name}>\n{bot_message}",
+        post_bot_message = client.chat_postMessage(
+            text=f"*Solicitante:* <@{user_name}>\n{bot_message_text}",
             channel=channel_id
         )
 
-        # Manage reactions in the thread
-        HandleReactions.thread_ts = post_message["ts"]
-
         logger.info(
             f"New message received on channel #{self.shortcut_config['slack_channel']} from "
-            f"{user_name}: {repr(bot_message)}"
+            f"{user_name}: {repr(bot_message_text)}"
         )
 
         client.chat_postMessage(
@@ -118,13 +126,20 @@ class HandleShortcutSupport(HandleReactions):
             text=(f"O time está de olho e logo irá responder... "
                   f"O SLA de Atendimento é de {self.shortcut_config['az_devops_sla'][environment]}."),
             channel=channel_id,
-            thread_ts=post_message["ts"]
+            thread_ts=post_bot_message["ts"]
+        )
+
+        # Sending message mentioning the support_team
+        client.chat_postMessage(
+            text=f"Estou marcando o time <!subteam^{support_team_id}> para ajudar no problema!",
+            channel=channel_id,
+            thread_ts=post_bot_message["ts"]
         )
 
         # Get the thread permanent link
         thread_link = client.chat_getPermalink(
             channel=channel_id,
-            message_ts=post_message["ts"]
+            message_ts=post_bot_message["ts"]
         )
 
         try:
@@ -165,9 +180,9 @@ class HandleShortcutSupport(HandleReactions):
                         "text": f":azure_board: O seguinte card de suporte foi criado: <{board_item_url}|#{board_item.id}>"
                     }
                 }],
-                text=f"O seguinte card de suporte foi criado: <{board_item_url}|#{board_item.id}>",
+                text=f"O seguinte card de suporte foi criado: {board_item_url}",
                 channel=channel_id,
-                thread_ts=post_message["ts"]
+                thread_ts=post_bot_message["ts"]
             )
         except Exception:
             logger.error("Failed to create Azure Boards Work Item.", exc_info=True)

@@ -30,8 +30,9 @@ stages:
     - task: CmdLine@2
       inputs:
         script: |
-          pip install --quiet flake8
+          pip install --quiet flake8 bandit
           flake8 bot/
+          bandit -r bot/
   - job: UnitTests
     steps:
     - task: CmdLine@2

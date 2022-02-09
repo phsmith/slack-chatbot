@@ -12,7 +12,7 @@ from bot.config import Config
 requests.urllib3.disable_warnings()
 
 
-class AzDevOpsClient():
+class AzDevOpsClient:
     """
     Class that provides a wrapper for the Azure DevOps Python API
     More info at https://github.com/microsoft/azure-devops-python-api
@@ -28,15 +28,20 @@ class AzDevOpsClient():
         Returns:
             The connection object
         """
-        credentials = BasicAuthentication('', Config.az_devops_pat)
-        connection = Connection(base_url=Config.az_devops_organization_url, creds=credentials)
+        credentials = BasicAuthentication("", Config.az_devops_pat)
+        connection = Connection(
+            base_url=Config.az_devops_organization_url,
+            creds=credentials
+        )
         return connection
 
     def provide_work_item_tracking_client(self) -> object:
         """Set work_item_tracking_client
-           to communicates with Azure DevOps Boards
+        to communicates with Azure DevOps Boards
         """
-        self.work_item_tracking_client = self.connection.clients.get_work_item_tracking_client()
+        self.work_item_tracking_client = (
+            self.connection.clients.get_work_item_tracking_client()
+        )
 
     def get_team_settings(self, project: str) -> dict:
         """Get team_settings"""
@@ -49,7 +54,7 @@ class AzDevOpsClient():
         request = requests.get(
             url=team_settings_url,
             headers={"Authorization": f"Basic {Config.az_devops_pat_b64}"},
-            verify=False
+            verify=False  # nosec
         )
 
         try:
@@ -91,9 +96,7 @@ class AzDevOpsClient():
         except Exception as error:
             Config.logger.error(str(error))
 
-    def update_work_item(
-        self, project: str, document: list, work_item_id: str
-    ) -> dict:
+    def update_work_item(self, project: str, document: list, work_item_id: str) -> dict:
         """Update an work item on Azure DevOps Boards
 
         Args:

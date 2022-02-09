@@ -26,7 +26,8 @@ class TestAzDevOpsClient(unittest.TestCase):
 
     def test_add_item_to_project_board_wrong_project(self):
         self.assertRaises(
-            ValueError, self.az_devops_client.add_item_to_project_board,
+            ValueError,
+            self.az_devops_client.add_item_to_project_board,
             project=None,
             work_item_type=self.work_item_type,
             document={}
