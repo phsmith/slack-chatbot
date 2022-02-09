@@ -26,7 +26,7 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 |   |       `-- handle_shortcut_support.py
 |   |-- libs
 |   |   |-- az_devops_client.py
-|   |   `-- slack_client.py
+|   |   `-- slack_app.py
 |   |-- templates
 |   |   |-- azure_devops
 |   |   |   |-- cloud-team.j2
@@ -37,26 +37,20 @@ Slack ChatBot with shortcuts forms support and Azure Boards integration.
 |   |       `-- devops_shortcut_support.json
 |   |-- config.py
 |   `-- main.py
-|-- images
-|   |-- screenshot_1.png
-|   `-- screenshot_2.png
 |-- tests
 |   `-- unit
 |       |-- handlers
 |       |   `-- slack
 |       |       |-- test_handle_message.py
-|       |       |-- test_handle_shortcut_suporte.py
 |       |       `-- test_handle_shortcut_support.py
-|       |-- libs
-|       |   |-- test_az_devops_client.py
-|       |   `-- test_slack_client.py
-|       `-- slack_message_body.json
+|       `-- libs
+|           |-- test_az_devops_client.py
+|           `-- test_slack_app.py
 |-- app-manifest.yml
 |-- azure-pipelines.yml
 |-- Dockerfile
-|-- LICENSE
 |-- README.md
-|-- requirements.txt
+`-- requirements.txt
 ```
 
 ## Contributing
@@ -122,10 +116,14 @@ manage the bot installation and configuration.
 - In **Bot Token Scopes** add the following scopes:
     - app_mentions:read
     - channels:history
-    - channel:read
+    - channels:read
     - chat:write
+    - commands
+    - incoming-webhook
     - reactions:write
     - users:read
+    - reactions:read
+    - usergroups:read
 
 #### Slack API -> App Page -> Settings:
 

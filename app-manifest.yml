@@ -30,8 +30,11 @@ oauth_config:
       - channels:read
       - chat:write
       - commands
+      - incoming-webhook
       - reactions:write
       - users:read
+      - reactions:read
+      - usergroups:read
 settings:
   event_subscriptions:
     request_url: https://slack-chatbot.app/slack/events

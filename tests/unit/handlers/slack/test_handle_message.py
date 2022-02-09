@@ -5,10 +5,10 @@ from bot.handlers.slack.handle_messages import HandleMessages
 
 
 class TestHandleMessages(TestCase):
-    @patch("bot.libs.slack_client.SlackClient")
-    def setUp(self, mock_slack_client):
-        self.slack_client = mock_slack_client
-        self.slack_message_handle = HandleMessages(self.slack_client)
+    @patch("bot.libs.slack_app")
+    def setUp(self, mock_slack_app):
+        self.slack_app = mock_slack_app
+        self.slack_message_handle = HandleMessages(self.slack_app)
 
     def test_handle_message_with_thread(self):
         slack_message = dict(
@@ -19,7 +19,7 @@ class TestHandleMessages(TestCase):
         )
 
         self.assertIsNone(
-            self.slack_message_handle.handle_message(self.slack_client, slack_message, print)
+            self.slack_message_handle.handle_message(self.slack_app, slack_message, print)
         )
 
     def test_handle_message_without_thread(self):
@@ -31,5 +31,7 @@ class TestHandleMessages(TestCase):
 
         self.assertIn(
             ":robot_face: Para suporte, favor utilizar o(s) atalho(s)",
-            self.slack_message_handle.handle_message(self.slack_client, slack_message, print)
+            self.slack_message_handle.handle_message(
+                self.slack_app, slack_message, print
+            )
         )
